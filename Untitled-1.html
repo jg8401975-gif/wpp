@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Entrar no Site</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background-color: #fff0f5;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    input[type="tel"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 250px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    img {
+      width: 100px;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Página 1: Formulário -->
+  <div id="form-page">
+    <h1>Digite seu número de WhatsApp</h1>
+    <form id="whatsapp-form">
+      <input type="tel" name="whatsapp" placeholder="(xx) xxxxx-xxxx" required><br>
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+
+  <!-- Página 2: Agradecimento -->
+  <div id="thanks-page" class="hidden">
+    <h1>Obrigado por se cadastrar! ❤️</h1>
+    <p>Estamos felizes em ter você aqui. Veja algumas mensagens especiais:</p>
+
+    <img src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAA..." alt="Foto">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAA..." alt="Coração">
+    
+    <h2>💖💘💞💓</h2>
+    <p>Você será redirecionado em instantes...</p>
+  </div>
+
+  <script>
+    const form = document.getElementById('whatsapp-form');
+    const formPage = document.getElementById('form-page');
+    const thanksPage = document.getElementById('thanks-page');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const number = form.whatsapp.value;
+      const email = "SEUEMAIL@EXEMPLO.COM"; // <-- Substitua aqui
+
+      // Envia para o FormSubmit
+      fetch("https://formsubmit.co/ajax/" + email, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ whatsapp: number })
+      }).then(response => {
+        if (response.ok) {
+          formPage.classList.add('hidden');
+          thanksPage.classList.remove('hidden');
+
+          // Redireciona após alguns segundos, se quiser
+          setTimeout(() => {
+            window.location.href = "https://seusite.com"; // ou outra página
+          }, 5000);
+        } else {
+          alert("Erro ao enviar. Tente novamente.");
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
